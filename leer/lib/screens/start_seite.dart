@@ -1,6 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import '../screens/cocktails.dart';
+import 'cocktail.dart';
 
 class Start extends StatefulWidget {
   const Start({super.key});
@@ -12,7 +15,7 @@ class Start extends StatefulWidget {
 /// Der "State" ist der Teil, der Daten hält, die sich ändern können (z.B. query)
 class _StartState extends State<Start> {
   /// Selektierte Getränke
-  final Set<int> selectedDrinksIds = {};
+   Set<int> selectedDrinksIds = {};
   
   /// Controller für das TextField:
   /// für auslesen / Inhalt löchen
@@ -121,9 +124,13 @@ Widget build(BuildContext context) {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
+          // onPressed: (){
+          //
+          // print(Cocktail.rezepte(selectedDrinksIds));
+          // print(selectedDrinksIds);},
           onPressed: () => Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) => const Cocktails()),
+            MaterialPageRoute(builder: (_) => Cocktails(Cocktail.rezepte(PanelButton.zutatenIds))),
           ),
           child: const Text(
             'Cocktails',

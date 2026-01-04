@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -34,83 +35,216 @@ void initialize(){
   Zutat kokosmilch = Zutat('Kokosmilch', 4, 0);
   Zutat soda = Zutat('Soda', 4, 0);
 
-  List <Zutat> tequilaSunriseZutaten = [tequila, orangensaft, zitronensaft, grenadine];
-  Cocktail tequilaSunrise = Cocktail('Tequila Sunrise', 12, 2, tequilaSunriseZutaten);
+  // List <Zutat> tequilaSunriseZutaten = [tequila, orangensaft, zitronensaft, grenadine];
+  // Cocktail tequilaSunrise = Cocktail('Tequila Sunrise', 12, 2, tequilaSunriseZutaten);
+  // Cocktail.cocktails.add(tequilaSunrise);
+  // List <Zutat> cubaLibreZutaten = [rum, cola, limette, rohrzucker];
+  // Cocktail cubaLibre = Cocktail('Cuba Libre', 8, 1, cubaLibreZutaten);
+  // Cocktail.cocktails.add(cubaLibre);
+  // List<Zutat> longIslandIceTeaZutaten = [tequila, wodka, gin, rum, orangenlikoer, zitronensaft, zuckersirup, cola];
+  // Cocktail longIslandIceTea = Cocktail('Long Island Ice Tea', 17, 2, longIslandIceTeaZutaten);
+  // Cocktail.cocktails.add(longIslandIceTea);
+  // List<Zutat> mojitoZutaten = [rum, limette, zuckersirup, minze, soda];
+  // Cocktail mojito = Cocktail('Mojito', 12, 1, mojitoZutaten);
+  // Cocktail.cocktails.add(mojito);
+  // List<Zutat> pinaColadaZutaten = [rum, ananassaft, sahne, kokosmilch];
+  // Cocktail pinaColada = Cocktail('Pina Colada', 10, 2, pinaColadaZutaten);
+  // Cocktail.cocktails.add(pinaColada);
+  // List<Zutat> sexOnTheBeachZutaten = [wodka, pfirsichlikoer, cranberrysaft, ananassaft];
+  // Cocktail sexOnTheBeach = Cocktail('Sex On The Beach', 13, 1, sexOnTheBeachZutaten);
+  // Cocktail.cocktails.add(sexOnTheBeach);
+  // List<Zutat> ginTonicZutaten = [gin, tonic];
+  // Cocktail ginTonic = Cocktail('Gin Tonic', 13, 1, ginTonicZutaten);
+  // Cocktail.cocktails.add(ginTonic);
+  // List<Zutat> negroniZutaten = [gin, wermut, campari];
+  // Cocktail negroni = Cocktail('Negroni', 28, 3, negroniZutaten);
+  // Cocktail.cocktails.add(negroni);
+  // List<Zutat> martiniZutaten = [gin, wermut];
+  // Cocktail martini = Cocktail('Martini', 15, 2, martiniZutaten);
+  // Cocktail.cocktails.add(martini);
+  // List<Zutat> bloodyMaryZutaten = [wodka, tomatensaft, zitronensaft, worcester, tabasco];
+  // Cocktail bloodyMary = Cocktail('Bloody Mary', 11, 1, bloodyMaryZutaten);
+  // Cocktail.cocktails.add(bloodyMary);
+  const String defaultBeschreibung = 'Keine Beschreibung vorhanden.';
+  const String defaultImg =
+      'https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg/small';
+
+  List<Zutat> tequilaSunriseZutaten = [
+    tequila, orangensaft, zitronensaft, grenadine
+  ];
+  Cocktail tequilaSunrise = Cocktail(
+    'Tequila Sunrise',
+    defaultBeschreibung,
+    12,
+    2,
+    tequilaSunriseZutaten,
+    defaultImg,
+  );
   Cocktail.cocktails.add(tequilaSunrise);
-  List <Zutat> cubaLibreZutaten = [rum, cola, limette, rohrzucker];
-  Cocktail cubaLibre = Cocktail('Cuba Libre', 8, 1, cubaLibreZutaten);
+
+  List<Zutat> cubaLibreZutaten = [rum, cola, limette, rohrzucker];
+  Cocktail cubaLibre = Cocktail(
+    'Cuba Libre',
+    defaultBeschreibung,
+    8,
+    1,
+    cubaLibreZutaten,
+    defaultImg,
+  );
   Cocktail.cocktails.add(cubaLibre);
-  List<Zutat> longIslandIceTeaZutaten = [tequila, wodka, gin, rum, orangenlikoer, zitronensaft, zuckersirup, cola];
-  Cocktail longIslandIceTea = Cocktail('Long Island Ice Tea', 17, 2, longIslandIceTeaZutaten);
+
+  List<Zutat> longIslandIceTeaZutaten = [
+    tequila, wodka, gin, rum, orangenlikoer,
+    zitronensaft, zuckersirup, cola
+  ];
+  Cocktail longIslandIceTea = Cocktail(
+    'Long Island Ice Tea',
+    defaultBeschreibung,
+    17,
+    2,
+    longIslandIceTeaZutaten,
+    defaultImg,
+  );
   Cocktail.cocktails.add(longIslandIceTea);
+
   List<Zutat> mojitoZutaten = [rum, limette, zuckersirup, minze, soda];
-  Cocktail mojito = Cocktail('Mojito', 12, 1, mojitoZutaten);
+  Cocktail mojito = Cocktail(
+    'Mojito',
+    defaultBeschreibung,
+    12,
+    1,
+    mojitoZutaten,
+    defaultImg,
+  );
   Cocktail.cocktails.add(mojito);
+
   List<Zutat> pinaColadaZutaten = [rum, ananassaft, sahne, kokosmilch];
-  Cocktail pinaColada = Cocktail('Pina Colada', 10, 2, pinaColadaZutaten);
+  Cocktail pinaColada = Cocktail(
+    'Pina Colada',
+    defaultBeschreibung,
+    10,
+    2,
+    pinaColadaZutaten,
+    defaultImg,
+  );
   Cocktail.cocktails.add(pinaColada);
-  List<Zutat> sexOnTheBeachZutaten = [wodka, pfirsichlikoer, cranberrysaft, ananassaft];
-  Cocktail sexOnTheBeach = Cocktail('Sex On The Beach', 13, 1, sexOnTheBeachZutaten);
+
+  List<Zutat> sexOnTheBeachZutaten = [
+    wodka, pfirsichlikoer, cranberrysaft, ananassaft
+  ];
+  Cocktail sexOnTheBeach = Cocktail(
+    'Sex On The Beach',
+    defaultBeschreibung,
+    13,
+    1,
+    sexOnTheBeachZutaten,
+    defaultImg,
+  );
   Cocktail.cocktails.add(sexOnTheBeach);
+
   List<Zutat> ginTonicZutaten = [gin, tonic];
-  Cocktail ginTonic = Cocktail('Gin Tonic', 13, 1, ginTonicZutaten);
+  Cocktail ginTonic = Cocktail(
+    'Gin Tonic',
+    defaultBeschreibung,
+    13,
+    1,
+    ginTonicZutaten,
+    defaultImg,
+  );
   Cocktail.cocktails.add(ginTonic);
+
   List<Zutat> negroniZutaten = [gin, wermut, campari];
-  Cocktail negroni = Cocktail('Negroni', 28, 3, negroniZutaten);
+  Cocktail negroni = Cocktail(
+    'Negroni',
+    defaultBeschreibung,
+    28,
+    3,
+    negroniZutaten,
+    defaultImg,
+  );
   Cocktail.cocktails.add(negroni);
+
   List<Zutat> martiniZutaten = [gin, wermut];
-  Cocktail martini = Cocktail('Martini', 15, 2, martiniZutaten);
+  Cocktail martini = Cocktail(
+    'Martini',
+    defaultBeschreibung,
+    15,
+    2,
+    martiniZutaten,
+    defaultImg,
+  );
   Cocktail.cocktails.add(martini);
-  List<Zutat> bloodyMaryZutaten = [wodka, tomatensaft, zitronensaft, worcester, tabasco];
-  Cocktail bloodyMary = Cocktail('Bloody Mary', 11, 1, bloodyMaryZutaten);
+
+  List<Zutat> bloodyMaryZutaten = [
+    wodka, tomatensaft, zitronensaft, worcester, tabasco
+  ];
+  Cocktail bloodyMary = Cocktail(
+    'Bloody Mary',
+    defaultBeschreibung,
+    11,
+    1,
+    bloodyMaryZutaten,
+    defaultImg,
+  );
   Cocktail.cocktails.add(bloodyMary);
+
+
 
 }
 
 class Cocktail{
-  String name;
-  int alkoholgehalt;
-  int schwierigkeit;
-  List <Zutat> zutaten;
-  int fehlendeZutaten;
-  static List<Cocktail> cocktails;
+  String name = "";
+  int alkoholgehalt = 0;
+  int schwierigkeit = 0;
+  List <Zutat> zutaten = [];
+  int fehlendeZutaten = 0;
+  String img = "";
+  String beschreibung = "";
+  static List<Cocktail> cocktails =[];
 
-  Cocktail(String name, int alkoholgehalt, int schwierigkeit, List <Zutat> zutaten){
-    this.name = name;
-    this.alkoholgehalt = alkoholgehalt;
-    this.schwierigkeit = schwierigkeit;
-    this.zutaten = zutaten;
-    fehlendeZutaten = zutaten.length;
+  Cocktail(this.name,this.beschreibung, this.alkoholgehalt, this.schwierigkeit, this.zutaten,this.img){
+    // fehlendeZutaten = zutaten.length;
+    fehlendeZutaten = 0;
+  }
+
+  //Counter mit Wert = Anzahl der Zutaten des Cocktails
+//Jede Zutat des Cocktails wird überprüft, ob in zutaten. => wenn ja dann Counter =- 1
+
+  static List<Cocktail> rezepte(Set<int> ids){
+    initialize();
+    print(ids);
+    List<Cocktail> rezepte = [];
+    List<Zutat> zutaten =  [];
+    for (var id in ids) {
+      zutaten.add(Zutat("senf",0,12));
+    }
+    print(zutaten);
+    print("cocktail liste${Cocktail.cocktails}");
+
+
+    for(var i=0;i< Cocktail.cocktails.length;i++){
+      Cocktail.cocktails[i].fehlendeZutaten = Cocktail.cocktails[i].zutaten.length;
+      rezepte.add(Cocktail.cocktails[i]);
+      for(var k=0;k<Cocktail.cocktails[i].zutaten.length;k++){
+        if(zutaten.contains(Cocktail.cocktails[i].zutaten[k])){
+          Cocktail.cocktails[i].fehlendeZutaten =- 1;
+        }
+      }
+    }
+    rezepte.sort((a,b) => a.fehlendeZutaten.compareTo(b.fehlendeZutaten));
+    print(rezepte);
+    return rezepte;
   }
 }
 
 class Zutat{
-  String name;
-  int kategorie;
-  int alkoholgehalt;
+  String name = "";
+  int kategorie = 0;
+  int alkoholgehalt = 0;
 
-  Zutat(String name, int kategorie, int alkoholgehalt){
-    this.name = name;
-    this.kategorie = kategorie;
-    this.alkoholgehalt = alkoholgehalt;
-  }
+  Zutat(this.name, this.kategorie, this.alkoholgehalt);
 
 }
 
-//Counter mit Wert = Anzahl der Zutaten des Cocktails
-//Jede Zutat des Cocktails wird überprüft, ob in zutaten. => wenn ja dann Counter =- 1
 
-List<Cocktail> rezepte(List<Zutat> zutaten){
-  List<Cocktail> rezepte = [];
-  for(var i=0;i< Cocktail.cocktails.length;i++){
-    Cocktail.cocktails[i].fehlendeZutaten = Cocktail.cocktails[i].zutaten.length;
-    rezepte.add(Cocktail.cocktails[i]);
-    for(var k=0;k<Cocktail.cocktails[i].zutaten.length;k++){
-      if(zutaten.contains(Cocktail.cocktails[i].zutaten[k])){
-        Cocktail.cocktails[i].fehlendeZutaten =- 1;
-      }
-    }
-  }
-  rezepte.sort((a,b) => a.fehlendeZutaten.compareTo(b.fehlendeZutaten));
-  return rezepte;
-}
+
