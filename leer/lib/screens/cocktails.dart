@@ -29,61 +29,75 @@ class _Cocktails extends State<Cocktails>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      body: Column(
           children: [
-            Text('Cocktails'),
-            Wrap(
-              spacing:16,
-              runSpacing: 16,
+            // Text('Cocktails'),
+            /// TextField = Eingabefeld (hier: Suchleiste) -> bleibt oben stehen (scrollt NICHT mit)
+            TextField(
+              /// Verbindet das TextField mit Controller
+              controller: _controller,
 
-              children: [
-                /// TextField = Eingabefeld (hier: Suchleiste) -> bleibt oben stehen (scrollt NICHT mit)
-                TextField(
-                  /// Verbindet das TextField mit Controller
-                  controller: _controller,
+              /// decoration = Aussehen/Icons/Border/Hinweistext der Suchleiste
+              decoration: InputDecoration(
+                /// grauer Hinweistext, wenn noch nichts eingegeben wurde
+                hintText: 'Zutat suchen…',
 
-                  /// decoration = Aussehen/Icons/Border/Hinweistext der Suchleiste
-                  decoration: InputDecoration(
-                    /// grauer Hinweistext, wenn noch nichts eingegeben wurde
-                    hintText: 'Zutat suchen…',
+                /// Icon in Suchleiste
+                prefixIcon: const Icon(Icons.search),
 
-                    /// Icon in Suchleiste
-                    prefixIcon: const Icon(Icons.search),
+                /// Icon rechts (X), aber nur wenn query nicht leer ist
+                suffixIcon: query.isEmpty
+                    ? null
+                    : IconButton(
+                  icon: const Icon(Icons.clear),
 
-                    /// Icon rechts (X), aber nur wenn query nicht leer ist
-                    suffixIcon: query.isEmpty
-                        ? null
-                        : IconButton(
-                      icon: const Icon(Icons.clear),
-
-                      /// Beim Klick: Textfeld leeren + query zurücksetzen
-                      onPressed: () {
-                        _controller.clear();
-                        setState(() => query = '');
-                      },
-                    ),
-
-                    /// Rahmen um das Textfeld
-                    border: const OutlineInputBorder(),
-                  ),
-
-                  /// speichern den neuen Text in query + direkt neu laden
-                  onChanged: (value) => setState(() => query = value),
+                  /// Beim Klick: Textfeld leeren + query zurücksetzen
+                  onPressed: () {
+                    _controller.clear();
+                    setState(() => query = '');
+                  },
                 ),
 
-                /// Abstand nach unten
-                const SizedBox(height: 12),
+                /// Rahmen um das Textfeld
+                border: const OutlineInputBorder(),
+              ),
 
-                for (var c in widget.cocktails)
-                  CocktailButton(c),
-                CocktailButton(Cocktail("Mojito","du dsdfdsfdsfsdfdslfkslödafksdf"
-                    ,1,3,[Zutat("Grenadine",3,0),Zutat("Cola",4,0)],
-                    "https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg/small")),
-                CocktailButton(Cocktail("Mojito","du dsdfdsfdsfsdfdslfkslödafksdf"
-                    ,2,3,[Zutat("Grenadine",3,0),Zutat("Cola",4,0)],
-                    "https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg/small")),
-              ],
+              /// speichern den neuen Text in query + direkt neu laden
+              onChanged: (value) => setState(() => query = value),
+            ),
+
+            /// Abstand nach unten
+            const SizedBox(height: 12),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.only(bottom: 20),
+                children: [
+                  for (var c in widget.cocktails)
+                    CocktailButton(c),
+                ],
+              )
             )
+            // SingleChildScrollView(
+            //   scrollDirection: Axis.vertical,
+            //   child:
+            //     Wrap(
+            //       spacing:16,
+            //       runSpacing: 16,
+            //
+            //       children: [
+            //
+            //         for (var c in widget.cocktails)
+            //           CocktailButton(c),
+            //         CocktailButton(Cocktail("Mojito","du dsdfdsfdsfsdfdslfkslödafksdf"
+            //             ,1,3,[Zutat("Grenadine",3,0),Zutat("Cola",4,0)],
+            //             "https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg/small")),
+            //         CocktailButton(Cocktail("Mojito","du dsdfdsfdsfsdfdslfkslödafksdf"
+            //             ,2,3,[Zutat("Grenadine",3,0),Zutat("Cola",4,0)],
+            //             "https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg/small")),
+            //       ],
+            //     ),
+            // )
+
           ]
       ),
       floatingActionButton:
@@ -153,12 +167,12 @@ class _CocktailButtonState extends State<CocktailButton> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget> [
-              Column( children: [ClipRRect( borderRadius: BorderRadius.circular(widget.ecken),child: Image.network(widget.cocktail.img,width: 150,height: 150, cacheWidth: 200,fit: BoxFit.contain)),
+              Column( children: [ClipRRect( borderRadius: BorderRadius.circular(widget.ecken),child: Image.network(widget.cocktail.bild,width: 150,height: 150, cacheWidth: 200,fit: BoxFit.contain)),
               ]),
               SizedBox(width:30),
               Column(
                 children: [
-                  SizedBox(height: 50,child: AutoSizeText(widget.cocktail.name,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),maxLines: 1,textAlign: TextAlign.start,softWrap: true,),
+                  SizedBox(height: 50, width: 140,child: AutoSizeText(widget.cocktail.name,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),maxLines: 1,textAlign: TextAlign.center,softWrap: true,),
                   ),
                   SizedBox(width: 140, child: Text("Schwierigkeit:",textAlign: TextAlign.start,),)
                   ,
@@ -177,7 +191,7 @@ class _CocktailButtonState extends State<CocktailButton> {
                   ),
                   SizedBox(width: 140, child: Text("Stärke: ${widget.cocktail.alkoholgehalt} %",textAlign: TextAlign.start,),),
                   if(widget.cocktail.fehlendeZutaten!=0)
-                    SizedBox(width: 140, child: Text("Fehlende Zutaten: ${widget.cocktail.fehlendeZutaten} ",textAlign: TextAlign.start,),)
+                    SizedBox(width: 140, child: Text("Fehlend: ${widget.cocktail.fehlendeZutaten} ",textAlign: TextAlign.start,),)
 
                 ],)
               // Text(,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold), maxLines: 1,overflow: TextOverflow.ellipsis,),

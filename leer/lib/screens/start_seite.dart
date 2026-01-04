@@ -130,7 +130,7 @@ Widget build(BuildContext context) {
           // print(selectedDrinksIds);},
           onPressed: () => Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) => Cocktails(Cocktail.rezepte(PanelButton.zutatenIds))),
+            MaterialPageRoute(builder: (_) => Cocktails(Cocktail.getRezepte(PanelButton.zutatenIds))),
           ),
           child: const Text(
             'Cocktails',
