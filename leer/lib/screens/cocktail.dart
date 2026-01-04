@@ -34,11 +34,6 @@ void initialize(){
   Zutat sahne = Zutat('Sahne', platzhalterBild, 4, 0);
   Zutat kokosmilch = Zutat('Kokosmilch',platzhalterBild, 4, 0);
   Zutat soda = Zutat('Soda', platzhalterBild, 4, 0);
-  print(Zutat.zutaten.length);
-  print(Zutat.anzahl);
-  for(final z in Zutat.zutaten.values){
-    // print(z.name);
-  }
 
   List <Zutat> tequilaSunriseZutaten = [tequila, orangensaft, zitronensaft, grenadine];
   Cocktail tequilaSunrise = Cocktail('Tequila Sunrise', platzhalterBild, 'rezept', 12, 2, tequilaSunriseZutaten);
