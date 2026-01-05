@@ -167,7 +167,7 @@ class _CocktailButtonState extends State<CocktailButton> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget> [
-              Column( children: [ClipRRect( borderRadius: BorderRadius.circular(widget.ecken),child: Image.network(widget.cocktail.bild,width: 150,height: 150, cacheWidth: 200,fit: BoxFit.contain)),
+              Column( children: [ClipRRect( borderRadius: BorderRadius.circular(widget.ecken),child: Image.network(widget.cocktail.bild,width: 150,height: 150, cacheWidth: 150,fit: BoxFit.contain)),
               ]),
               SizedBox(width:30),
               Column(

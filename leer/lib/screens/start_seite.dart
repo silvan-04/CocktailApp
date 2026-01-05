@@ -9,7 +9,7 @@ class Start extends StatefulWidget {
   @override
   State<Start> createState() => _StartState();
 }
-
+ List<Zutat> drinks = Zutat.zutaten.values.toList();
 /// Der "State" ist der Teil, der Daten hält, die sich ändern können (z.B. query)
 class _StartState extends State<Start> {
   /// Scrollen/Automatisch
@@ -20,6 +20,13 @@ class _StartState extends State<Start> {
   void initState() {
     super.initState();
     _katKeys = { for (final k in kategorien) k.id: GlobalKey()};
+    if(Zutat.anzahl == 0){
+      Cocktail.initialize();
+      for(final z in Zutat.zutaten.values){
+        drinks.add(z);
+      };
+    }
+
   }
 
   /// Selektierte Getränke
@@ -160,13 +167,8 @@ class _StartState extends State<Start> {
               child: ListView(
                 controller: _scrollController,
                 children: [
-                  kategorieMitUeberschrift(0),
-                  kategorieMitUeberschrift(1),
-                  kategorieMitUeberschrift(2),
-                  kategorieMitUeberschrift(3),
-                  kategorieMitUeberschrift(4),
-                  kategorieMitUeberschrift(5),
-
+                  for ( int i = 0; i<kategorien.length;i++)
+                    kategorieMitUeberschrift(i)
                 ],
               ),
             ),
@@ -212,26 +214,8 @@ class Drink {
   const Drink(this.id, this.categoryId, this.title, this.icon);
 }
 
-// Beispiel-Daten nur für jze
-final drinks = <Drink>[
 
-  Drink(101, 0, 'Pils', Icons.sports_bar),
-  Drink(102, 0, 'Silvano', Icons.sports_bar),
-  Drink(201, 1, 'Timminator', Icons.water_drop),
-  Drink(202, 1, 'HUAN', Icons.water_drop),
-  Drink(103, 0, 'Pils', Icons.sports_bar),
-  Drink(104, 2, 'Colaaa', Icons.sports_bar),
-  Drink(205, 3, 'bierchen', Icons.water_drop),
-  Drink(206, 2, 'ajuss', Icons.water_drop),
-  Drink(107, 3, 'Pil safs', Icons.sports_bar),
-  Drink(108, 5, 'Wesd fizen', Icons.sports_bar),
-  Drink(209, 4, 'Cole bhersa', Icons.water_drop),
-  Drink(210, 2, 'Wase rberser', Icons.water_drop),
-  Drink(111, 2, 'Pilw regws', Icons.sports_bar),
-  Drink(112, 4, 'Wei wgewrhzen', Icons.sports_bar),
-  Drink(213, 3, 'erh Cola', Icons.water_drop),
-  Drink(214, 5, 'Waergerg sser', Icons.water_drop),
-];
+
 
 class Kategorie {
   final int id;
@@ -239,19 +223,18 @@ class Kategorie {
   const Kategorie(this.id, this.title);
 }
 final kategorien = <Kategorie>[
-  Kategorie(0, 'Saft'),
-  Kategorie(1, 'Softdrinks'),
-  Kategorie(2, 'Bier'),
-  Kategorie(3, 'Spirituosen'),
-  Kategorie(4, 'Likör'),
-  Kategorie(5, 'Wein'),
+  Kategorie(0, 'Spirituosen'),
+  Kategorie(1, 'Liköre'),
+  Kategorie(2, 'Säfte'),
+  Kategorie(3, 'Softdrinks'),
+  Kategorie(4, 'Sonstiges'),
 ];
 
 
 
 /// Baut ein Grid (ohne daten)
 Widget kategorie(int catId) {
-  final list = drinks.where((d) => d.categoryId == catId).toList();
+  final list = drinks.where((d) => d.kategorie == catId).toList();
 
   return GridView.builder(
     shrinkWrap: true, // wichtig: Grid passt sich in der ListView der Höhe an
@@ -263,7 +246,7 @@ Widget kategorie(int catId) {
       mainAxisSpacing: 0,
       childAspectRatio: 0.85,
     ),
-    itemBuilder: (_, i) => PanelButton(list[i].title,list[i].id,Image.network("https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg/small",width: 90,height: 90, cacheWidth: 200,fit: BoxFit.contain)),
+    itemBuilder: (_, i) => PanelButton(list[i].name,i,Image.network("https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg/small",width: 90,height: 90, cacheWidth: 90,fit: BoxFit.contain)),
   );
 }
 
