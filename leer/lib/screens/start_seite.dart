@@ -9,7 +9,7 @@ class Start extends StatefulWidget {
   @override
   State<Start> createState() => _StartState();
 }
- List<Zutat> drinks = Zutat.zutaten.values.toList();
+ List<Zutat> drinks = [];
 /// Der "State" ist der Teil, der Daten hält, die sich ändern können (z.B. query)
 class _StartState extends State<Start> {
   /// Scrollen/Automatisch
