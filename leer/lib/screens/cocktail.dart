@@ -114,7 +114,6 @@ class Cocktail{
 }
 
 class Zutat{
-  final int id;
   String name = '';
   String bild = '';
   int kategorie = 0;
