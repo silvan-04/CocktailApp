@@ -9,7 +9,7 @@ class Start extends StatefulWidget {
   @override
   State<Start> createState() => _StartState();
 }
- List<Zutat> drinks = [];
+ final List<Zutat> drinks = [];
 /// Der "State" ist der Teil, der Daten hält, die sich ändern können (z.B. query)
 class _StartState extends State<Start> {
   /// Scrollen/Automatisch
@@ -68,7 +68,7 @@ class _StartState extends State<Start> {
           style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
-      kategorie(katId),
+      kategorie(katId, query),
       const SizedBox(height: 12),
     ],
   );
@@ -237,8 +237,14 @@ final kategorien = <Kategorie>[
 
 
 /// Baut ein Grid (ohne daten)
-Widget kategorie(int catId) {
-  final list = drinks.where((d) => d.kategorie == catId).toList();
+Widget kategorie(int catId, String query) {
+  final q = query.trim().toLowerCase();
+  final list = drinks.where((d) =>
+  d.kategorie == catId &&
+      (q.isEmpty || d.name.toLowerCase().contains(q))
+
+  ).toList();
+
 
   return GridView.builder(
     shrinkWrap: true, // wichtig: Grid passt sich in der ListView der Höhe an
@@ -250,7 +256,17 @@ Widget kategorie(int catId) {
       mainAxisSpacing: 0,
       childAspectRatio: 0.85,
     ),
-    itemBuilder: (_, i) => PanelButton(list[i].name,list[i].id,Image.network("https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg/small",width: 90,height: 90, cacheWidth: 90,fit: BoxFit.contain)),
+    itemBuilder: (_, i) => PanelButton(
+        list[i].name,
+        list[i].id,
+        Image.network(
+            "https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg/small",
+            width: 90,
+            height: 90,
+            cacheWidth: 90,
+            fit: BoxFit.contain
+        )
+    ),
   );
 }
 
