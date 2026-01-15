@@ -41,6 +41,7 @@ class Cocktail{
 
   static List<Cocktail> getRezepte(Set<int> zutatenid){
     List<Zutat>zutaten = Zutat.idToZutat(zutatenid);
+    // print(zutaten);
     List<Cocktail> zutatenSortedList = [];
     for (var i = 0; i < Cocktail.cocktails.length; i++) {
       Cocktail.cocktails[i].fehlendeZutaten =
@@ -48,12 +49,15 @@ class Cocktail{
       zutatenSortedList.add(Cocktail.cocktails[i]);
       for (var k = 0; k < Cocktail.cocktails[i].zutaten.length; k++) {
         if (zutaten.contains(Cocktail.cocktails[i].zutaten[k])) {
-          Cocktail.cocktails[i].fehlendeZutaten = -1;
+          Cocktail.cocktails[i].fehlendeZutaten = Cocktail.cocktails[i].fehlendeZutaten-1;
         }
       }
     }
     zutatenSortedList.sort((a, b) =>
         a.fehlendeZutaten.compareTo(b.fehlendeZutaten));
+    for(Cocktail c in zutatenSortedList){
+      // print(c.name);
+    }
     return zutatenSortedList;
   }
   static void initialize(){
@@ -115,24 +119,26 @@ class Zutat{
   String bild = '';
   int kategorie = 0;
   int alkoholgehalt = 0;
+  int id = -1;
   static var zutaten = Map<int, Zutat>();
   static int anzahl = 0;
 
   Zutat(String name, String bild, int kategorie, int alkoholgehalt)
-      : id = anzahl {
+  {
     this.name = name;
     this.bild = bild;
     this.kategorie = kategorie;
     this.alkoholgehalt = alkoholgehalt;
     Zutat.zutaten[id] = this;
     anzahl++;
+    this.id = Zutat.anzahl;
   }
 
   static List <Zutat> idToZutat(Set<int> ids){
     List<Zutat> zutaten = [];
     for (var id in ids){
-      print(Zutat.zutaten[id]);
-      // zutaten.add(Zutat.zutaten[id]!);
+      // print(Zutat.zutaten[id]);
+      zutaten.add(Zutat.zutaten[id]!);
       // print(Zutat.zutaten[id]);
     }
 

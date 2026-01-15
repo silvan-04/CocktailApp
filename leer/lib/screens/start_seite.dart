@@ -15,6 +15,8 @@ class _StartState extends State<Start> {
   /// Scrollen/Automatisch
   final ScrollController _scrollController = ScrollController();
   late final Map<int, GlobalKey> _katKeys;
+  _StartState();
+
 
   @override
   void initState() {
@@ -51,6 +53,8 @@ class _StartState extends State<Start> {
   final Map<int, String> katTitel = {
     for (final k in kategorien) k.id: k.title,
   };
+
+
 
   /// Für Kategorie-Überschrift + Scrollen
   Widget kategorieMitUeberschrift(int katId) => Column(
@@ -280,10 +284,26 @@ class PanelButton extends StatefulWidget{
 }
 
 class _PanelButtonState extends State<PanelButton> {
-  bool selected = false;
+  late bool selected;
+
+  @override
+  void initState() {
+    super.initState();
+    // Prüfe beim Starten des Widgets, ob die ID bereits in der Liste ist
+    selected = PanelButton.zutatenIds.contains(widget.id);
+  }
+
+  // Diese Methode hilft, wenn sich die Liste von außen ändert (z.B. durch Reset)
+  @override
+  void didUpdateWidget(covariant PanelButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    setState(() {
+      selected = PanelButton.zutatenIds.contains(widget.id);
+    });
+  }
 
   Widget build(BuildContext context) {
-
+    selected = PanelButton.zutatenIds.contains(widget.id);
     return Container (
       margin: EdgeInsets.all(20),
       height: 400,
@@ -291,6 +311,7 @@ class _PanelButtonState extends State<PanelButton> {
       InkWell(
         onTap: () {
           setState(() {
+            // selected = PanelButton.zutatenIds.contains(widget.id);
             selected = !selected;
             if(selected){
               PanelButton.zutatenIds.add(widget.id);
@@ -298,9 +319,7 @@ class _PanelButtonState extends State<PanelButton> {
               PanelButton.zutatenIds.remove(widget.id);
             }
             print(PanelButton.zutatenIds);
-
             ///hier zutat in die selected liste einfügen widget.name
-            print(selected);
           });
         },
         borderRadius: BorderRadius.circular(widget.ecken),
