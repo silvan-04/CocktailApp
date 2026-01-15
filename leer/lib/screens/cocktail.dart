@@ -110,6 +110,7 @@ class Cocktail{
 }
 
 class Zutat{
+  final int id;
   String name = '';
   String bild = '';
   int kategorie = 0;
@@ -117,12 +118,14 @@ class Zutat{
   static var zutaten = Map<int, Zutat>();
   static int anzahl = 0;
 
-  Zutat(String name, String bild, int kategorie, int alkoholgehalt){
+  Zutat(String name, String bild, int kategorie, int alkoholgehalt)
+      : id = anzahl {
     this.name = name;
     this.bild = bild;
     this.kategorie = kategorie;
     this.alkoholgehalt = alkoholgehalt;
-    Zutat.zutaten[Zutat.anzahl++] = this;
+    Zutat.zutaten[id] = this;
+    anzahl++;
   }
 
   static List <Zutat> idToZutat(Set<int> ids){
