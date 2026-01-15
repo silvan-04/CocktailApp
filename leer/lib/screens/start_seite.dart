@@ -242,6 +242,7 @@ Widget kategorie(int catId, String query) {
   final list = drinks.where((d) =>
   d.kategorie == catId &&
       (q.isEmpty || d.name.toLowerCase().contains(q))
+
   ).toList();
 
 
