@@ -141,7 +141,7 @@ class _CocktailButtonState extends State<CocktailButton> {
               width: ((screenHeight+screenWidth)/2) * 0.005,
             ),
           ),
-          padding: EdgeInsets.symmetric(vertical: screenHeight*0.025,horizontal: screenWidth*0.05),
+          padding: EdgeInsets.symmetric(vertical: screenHeight*0.032,horizontal: screenWidth*0.05),
           child:
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
