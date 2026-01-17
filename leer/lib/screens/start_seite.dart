@@ -57,30 +57,32 @@ class _StartState extends State<Start> {
 
 
   /// Für Kategorie-Überschrift + Scrollen
-  Widget kategorieMitUeberschrift(int katId) => Column(
+  Widget kategorieMitUeberschrift(double screenHeight,double screenWidth,int katId) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Padding(
         key: _katKeys[katId],
-        padding: const EdgeInsets.only(top: 6),
+        padding:EdgeInsets.only(top: screenHeight*0.005),
         child: Text(
           katTitel[katId] ?? 'Kategorie $katId',
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style:TextStyle(fontSize: screenWidth*0.07, fontWeight: FontWeight.bold),
         ),
       ),
-      kategorie(katId, query),
-      const SizedBox(height: 12),
+      kategorie(context,katId, query),
+      SizedBox(height: screenHeight * 0.01),
     ],
   );
 
   @override
   Widget build(BuildContext context) {
     /// AppBar
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       /// später vlt. Logo oder so... jz Platzhalter
       /// appBar: AppBar(title: const Text('Cocktail-App') ),
       body: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: EdgeInsets.fromLTRB(screenWidth*0.0225,screenHeight*0.03, screenWidth*0.0225,0),
 
         /// Column: oben fixe Suchleiste, darunter scrollbarer Inhalt
         child: Column(
@@ -120,11 +122,11 @@ class _StartState extends State<Start> {
             ),
 
             /// Abstand nach unten
-            const SizedBox(height: 10),
+            SizedBox(height: screenHeight*0.015),
 
 
             SizedBox(
-              height: 55,
+              height: screenHeight*0.05,
               child:
             /// Kategoiren-Leiste
               SingleChildScrollView(
@@ -134,8 +136,10 @@ class _StartState extends State<Start> {
                     for (final k in kategorien) ...[
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                          minimumSize: const Size(10, 32),
+                          padding: EdgeInsets.symmetric(horizontal: screenWidth*0.03, vertical: screenHeight*0.01),
+                          minimumSize: Size(screenWidth*0.15,screenHeight*0.03),
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         onPressed: () {
@@ -151,18 +155,19 @@ class _StartState extends State<Start> {
                         },
                         child: Text(
                           k.title,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
+                          style: TextStyle(
+                            fontSize: screenWidth*0.04,
+                            color: Colors.white,
   
                           ),),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: screenWidth*0.02),
                     ],
                   ],
                 ),
               ),
             ),
+            SizedBox(height:screenHeight*0.005),
 
 
 
@@ -172,7 +177,7 @@ class _StartState extends State<Start> {
                 controller: _scrollController,
                 children: [
                   for ( int i = 0; i<kategorien.length;i++)
-                    kategorieMitUeberschrift(i)
+                    kategorieMitUeberschrift(screenHeight,screenWidth,i)
                 ],
               ),
             ),
@@ -183,27 +188,27 @@ class _StartState extends State<Start> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: DecoratedBox(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: const [
-            BoxShadow(color: Colors.black26, blurRadius: 12, offset: Offset(0, 6))
+          borderRadius: BorderRadius.circular(screenWidth*0.02),
+          boxShadow: [
+            BoxShadow(color: Colors.black26, blurRadius: screenHeight*0.02, offset: Offset(0, screenHeight*0.01))
           ],
         ),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             elevation: 0,
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black,
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+            padding:EdgeInsets.symmetric(horizontal: screenWidth*0.1, vertical: screenHeight*0.02),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(screenWidth*0.03)),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
-          onPressed: () => Navigator.pushReplacement(
+          onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(builder: (_) =>  Cocktails(Cocktail.getRezepte(PanelButton.zutatenIds))),
           ),
-          child: const Text(
+          child: Text(
             'Cocktails',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: screenWidth * 0.045, fontWeight: FontWeight.bold),
           ),
         ),
       ),
@@ -237,8 +242,10 @@ final kategorien = <Kategorie>[
 
 
 /// Baut ein Grid (ohne daten)
-Widget kategorie(int catId, String query) {
+Widget kategorie(BuildContext context,int catId, String query) {
   final q = query.trim().toLowerCase();
+  double screenWidth = MediaQuery.of(context).size.width;
+  double screenHeight = MediaQuery.of(context).size.height;
   final list = drinks.where((d) =>
   d.kategorie == catId &&
       (q.isEmpty || d.name.toLowerCase().contains(q))
@@ -261,9 +268,9 @@ Widget kategorie(int catId, String query) {
         list[i].id,
         Image.network(
             "https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg/small",
-            width: 90,
-            height: 90,
-            cacheWidth: 90,
+            width: screenWidth*0.2225,
+            height: screenWidth*0.2225,
+            cacheWidth: (screenWidth*0.2225).toInt(),
             fit: BoxFit.contain
         )
     ),
@@ -304,10 +311,13 @@ class _PanelButtonState extends State<PanelButton> {
   }
 
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     selected = PanelButton.zutatenIds.contains(widget.id);
     return Container (
-      margin: EdgeInsets.all(20),
-      height: 400,
+      margin: EdgeInsets.symmetric(vertical: screenHeight*0.02,horizontal: screenWidth*0.04),
+      height: screenHeight*0.2,
       child:
       InkWell(
         onTap: () {
@@ -323,32 +333,32 @@ class _PanelButtonState extends State<PanelButton> {
             ///hier zutat in die selected liste einfügen widget.name
           });
         },
-        borderRadius: BorderRadius.circular(widget.ecken),
+        borderRadius: BorderRadius.circular(screenHeight*0.02),
         child:
         Container(
           decoration: BoxDecoration(
             color: Colors.white70,
-            borderRadius: BorderRadius.circular(widget.ecken),
+            borderRadius: BorderRadius.circular(screenHeight*0.02),
             boxShadow: [
               BoxShadow(
                 color: Colors.black26,
-                blurRadius: 8,
-                offset: Offset(0,4),
+                blurRadius: screenHeight*0.01,
+                offset: Offset(0,screenHeight*0.005),
               )
             ],
             border: Border.all(
-              color: selected ? Colors.black38 : Colors.transparent,
-              width: 4,
+              color: selected ? Colors.blue : Colors.transparent,
+              width: ((screenHeight+screenWidth)/2) * 0.005,
             ),
           ),
-          padding: EdgeInsets.all(widget.ecken),
+          padding: EdgeInsets.symmetric(vertical: screenHeight*0.025,horizontal: screenWidth*0.025),
           child:
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget> [
-              AutoSizeText(widget.name,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),maxLines: 1,textAlign: TextAlign.center,softWrap: true,),
-              SizedBox(height:8),
-              ClipRRect( borderRadius: BorderRadius.circular(widget.ecken),child: widget.image,),
+              AutoSizeText(widget.name,style: TextStyle(fontSize: screenWidth*0.05,fontWeight: FontWeight.bold),maxLines: 1,textAlign: TextAlign.center,softWrap: true,),
+              SizedBox(height:screenHeight*0.02),
+              ClipRRect( borderRadius: BorderRadius.circular(screenHeight*0.02),child: widget.image,),
             ],
           ),
         ),
