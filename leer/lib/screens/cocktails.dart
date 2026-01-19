@@ -28,90 +28,70 @@ class _Cocktails extends State<Cocktails>{
 
   @override
   Widget build(BuildContext context) {
+    final q = query.trim().toLowerCase();
+    final filtered = widget.cocktails.where((c) =>
+    q.isEmpty || c.name.toLowerCase().contains(q)).toList();
+
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Column(
-          children: [
-            // Text('Cocktails'),
-            /// TextField = Eingabefeld (hier: Suchleiste) -> bleibt oben stehen (scrollt NICHT mit)
-            TextField(
-              /// Verbindet das TextField mit Controller
-              controller: _controller,
+      body: SafeArea(
+        // SafeArea verhindert, dass die Leiste oben in die Statusbar rutscht
+        top: true,
+        bottom: false,
+        left: false,
+        right: false,
+        child: Column(
+            children: [
+              Padding(
+                padding:  EdgeInsets.fromLTRB(screenWidth*0.05,screenHeight*0.01,screenWidth*0.05,0),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back, color: Colors.blue),
+                      iconSize: screenHeight *0.05,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
 
-              /// decoration = Aussehen/Icons/Border/Hinweistext der Suchleiste
-              decoration: InputDecoration(
-                /// grauer Hinweistext, wenn noch nichts eingegeben wurde
-                hintText: 'Zutat suchen…',
+                    SizedBox(width: screenWidth * 0.01), // Kleiner Abstand zwischen Button und Suche
 
-                /// Icon in Suchleiste
-                prefixIcon: const Icon(Icons.search),
-
-                /// Icon rechts (X), aber nur wenn query nicht leer ist
-                suffixIcon: query.isEmpty
-                    ? null
-                    : IconButton(
-                  icon: const Icon(Icons.clear),
-
-                  /// Beim Klick: Textfeld leeren + query zurücksetzen
-                  onPressed: () {
-                    _controller.clear();
-                    setState(() => query = '');
-                  },
+                    // 2. Das TextField muss in ein Expanded, um den restlichen Platz zu füllen
+                    Expanded(
+                      child: TextField(
+                        controller: _controller,
+                        decoration: InputDecoration(
+                          hintText: 'Cocktail suchen…',
+                          prefixIcon: const Icon(Icons.search),
+                          suffixIcon: query.isEmpty
+                              ? null
+                              : IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              _controller.clear();
+                              setState(() => query = '');
+                            },
+                          ),
+                          border: const OutlineInputBorder(),
+                        ),
+                        onChanged: (value) => setState(() => query = value),
+                      ),
+                    ),
+                  ],
                 ),
-
-                /// Rahmen um das Textfeld
-                border: const OutlineInputBorder(),
               ),
-
-              /// speichern den neuen Text in query + direkt neu laden
-              onChanged: (value) => setState(() => query = value),
-            ),
-
-            /// Abstand nach unten
-            const SizedBox(height: 12),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.only(bottom: 20),
-                children: [
-                  for (var c in widget.cocktails)
-                    CocktailButton(c),
-                ],
+              /// Abstand nach unten
+              SizedBox(height: screenHeight*0.005),
+              Expanded(
+                child: ListView(
+                  children: [
+                    for (var c in filtered)
+                      CocktailButton(c),
+                  ],
+                )
               )
-            )
-            // SingleChildScrollView(
-            //   scrollDirection: Axis.vertical,
-            //   child:
-            //     Wrap(
-            //       spacing:16,
-            //       runSpacing: 16,
-            //
-            //       children: [
-            //
-            //         for (var c in widget.cocktails)
-            //           CocktailButton(c),
-            //         CocktailButton(Cocktail("Mojito","du dsdfdsfdsfsdfdslfkslödafksdf"
-            //             ,1,3,[Zutat("Grenadine",3,0),Zutat("Cola",4,0)],
-            //             "https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg/small")),
-            //         CocktailButton(Cocktail("Mojito","du dsdfdsfdsfsdfdslfkslödafksdf"
-            //             ,2,3,[Zutat("Grenadine",3,0),Zutat("Cola",4,0)],
-            //             "https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg/small")),
-            //       ],
-            //     ),
-            // )
-
-          ]
-      ),
-      floatingActionButton:
-      Padding(
-        padding: const EdgeInsetsGeometry.only(top: 10),
-        child:IconButton(
-          icon: Icon(Icons.arrow_back,color: Colors.blue,),
-          iconSize: 40,
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const Start()),
-            );
-          },
+            ]
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
@@ -167,7 +147,7 @@ class _CocktailButtonState extends State<CocktailButton> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget> [
-              Column( children: [ClipRRect( borderRadius: BorderRadius.circular(widget.ecken),child: Image.network(widget.cocktail.bild,width: 150,height: 150, cacheWidth: 150,fit: BoxFit.contain)),
+              Column( children: [ClipRRect( borderRadius: BorderRadius.circular(widget.ecken),child: Image.network(widget.cocktail.bild,width: 150,height: 150, cacheWidth: 200,fit: BoxFit.contain)),
               ]),
               SizedBox(width:30),
               Column(
