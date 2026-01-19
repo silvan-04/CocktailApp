@@ -37,7 +37,7 @@ dependencies:
 
   auto_size_text: ^3.0.0
 
-
+  youtube_player_flutter: ^9.0.0
 
   hyphenatorx: ^1.1.0
 

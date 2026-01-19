@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'cocktail.dart';
 import 'start_seite.dart';
+import 'rezept_seite.dart';
 
 class Cocktails extends StatefulWidget {
   final List<Cocktail> cocktails;
@@ -123,6 +124,12 @@ class _CocktailButtonState extends State<CocktailButton> {
       InkWell(
         onTap: () {
           // hier link zu Rezeptseite
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => rezept_seite(widget.cocktail),
+              ),
+          );
         },
         borderRadius: BorderRadius.circular(widget.ecken),
         child:

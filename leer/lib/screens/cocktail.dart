@@ -14,16 +14,18 @@ class Cocktail{
   int alkoholgehalt = 0;
   int schwierigkeit = 0;
   List <Zutat> zutaten = [];
+  List <String> zutatenMenge = [];
   int fehlendeZutaten = 0;
   static List<Cocktail> cocktails = [];
 
-  Cocktail(String name, String bild, String rezept, int alkoholgehalt, int schwierigkeit, List <Zutat> zutaten){
+  Cocktail(String name, String bild, String rezept, int alkoholgehalt, int schwierigkeit, List <Zutat> zutaten, List <String> zutatenMenge){
     this.name = name;
     this.bild = bild;
     this.rezept = rezept;
     this.alkoholgehalt = alkoholgehalt;
     this.schwierigkeit = schwierigkeit;
     this.zutaten = zutaten;
+    this.zutatenMenge = zutatenMenge;
     fehlendeZutaten = zutaten.length;
     Cocktail.cocktails.add(this);
   }
@@ -80,7 +82,6 @@ class Cocktail{
     Zutat cola = Zutat('Cola', platzhalterBild, 3, 0);
     Zutat tonic = Zutat('Tonic Water', platzhalterBild, 3, 0);
     Zutat rohrzucker = Zutat('Rohrzucker',platzhalterBild, 4, 0);
-    Zutat zuckersirup = Zutat('Zuckersirup', platzhalterBild, 4, 0);
     Zutat limette = Zutat('Limette', platzhalterBild, 4, 0);
     Zutat minze = Zutat('Minze', platzhalterBild, 4, 0);
     Zutat worcester = Zutat('Worcestershiresauce', platzhalterBild, 4, 0);
@@ -90,25 +91,35 @@ class Cocktail{
     Zutat soda = Zutat('Soda', platzhalterBild, 4, 0);
 
     List <Zutat> tequilaSunriseZutaten = [tequila, orangensaft, zitronensaft, grenadine];
-    Cocktail tequilaSunrise = Cocktail('Tequila Sunrise', platzhalterBild, 'rezept', 12, 2, tequilaSunriseZutaten);
-    List <Zutat> cubaLibreZutaten = [rum, cola, limette, rohrzucker];
-    Cocktail cubaLibre = Cocktail('Cuba Libre', platzhalterBild, 'rezept', 8, 1, cubaLibreZutaten);
-    List<Zutat> longIslandIceTeaZutaten = [tequila, wodka, gin, rum, orangenlikoer, zitronensaft, zuckersirup, cola];
-    Cocktail longIslandIceTea = Cocktail('Long Island Ice Tea', platzhalterBild, 'rezept', 17, 2, longIslandIceTeaZutaten);
-    List<Zutat> mojitoZutaten = [rum, limette, zuckersirup, minze, soda];
-    Cocktail mojito = Cocktail('Mojito', platzhalterBild, 'rezept', 12, 1, mojitoZutaten);
+    List <String> tequilaSunriseMenge = ['5 cl', '12 cl', '1 cl', '1 cl'];
+    Cocktail tequilaSunrise = Cocktail('Tequila Sunrise', platzhalterBild, 'rezept', 12, 2, tequilaSunriseZutaten, tequilaSunriseMenge);
+    List <Zutat> cubaLibreZutaten = [rum, cola, limette];
+    List <String> cubaLibreMenge = ['5 cl', '12 cl', '1'];
+    Cocktail cubaLibre = Cocktail('Cuba Libre', platzhalterBild, 'rezept', 8, 1, cubaLibreZutaten, cubaLibreMenge);
+    List<Zutat> longIslandIceTeaZutaten = [tequila, wodka, gin, rum, orangenlikoer, zitronensaft, cola];
+    List <String> longIslandIceTeaMenge = ['1,5 cl', '1,5 cl', '1,5 cl', '1,5 cl', '1,5 cl', '2 cl', '14 cl'];
+    Cocktail longIslandIceTea = Cocktail('Long Island Ice Tea', platzhalterBild, 'rezept', 17, 2, longIslandIceTeaZutaten, longIslandIceTeaMenge);
+    List<Zutat> mojitoZutaten = [rum, limette, rohrzucker, minze, soda];
+    List <String> mojitoMenge = ['6 cl', '1/2', '1 EL', '1 Zweig', '30 cl'];
+    Cocktail mojito = Cocktail('Mojito', platzhalterBild, 'rezept', 12, 1, mojitoZutaten, mojitoMenge);
     List<Zutat> pinaColadaZutaten = [rum, ananassaft, sahne, kokosmilch];
-    Cocktail pinaColada = Cocktail('Pina Colada', platzhalterBild, 'rezept', 10, 2, pinaColadaZutaten);
+    List <String> pinaColadaMenge = ['6 cl', '10 cl', '2 cl', '4 cl'];
+    Cocktail pinaColada = Cocktail('Pina Colada', platzhalterBild, 'rezept', 10, 2, pinaColadaZutaten, pinaColadaMenge);
     List<Zutat> sexOnTheBeachZutaten = [wodka, pfirsichlikoer, cranberrysaft, ananassaft];
-    Cocktail sexOnTheBeach = Cocktail('Sex On The Beach', platzhalterBild, 'rezept', 13, 1, sexOnTheBeachZutaten);
+    List <String> sexOnTheBeachMenge = ['3 cl', '3 cl', '6 cl', '6 cl'];
+    Cocktail sexOnTheBeach = Cocktail('Sex On The Beach', platzhalterBild, 'rezept', 13, 1, sexOnTheBeachZutaten, sexOnTheBeachMenge);
     List<Zutat> ginTonicZutaten = [gin, tonic];
-    Cocktail ginTonic = Cocktail('Gin Tonic', platzhalterBild, 'rezept', 13, 1, ginTonicZutaten);
+    List <String> ginTonicMenge = ['4 cl', '20 cl'];
+    Cocktail ginTonic = Cocktail('Gin Tonic', platzhalterBild, 'rezept', 13, 1, ginTonicZutaten, ginTonicMenge);
     List<Zutat> negroniZutaten = [gin, wermut, campari];
-    Cocktail negroni = Cocktail('Negroni', platzhalterBild, 'rezept', 28, 3, negroniZutaten);
+    List <String> negroniMenge = ['2 cl', '2 cl', '2 cl'];
+    Cocktail negroni = Cocktail('Negroni', platzhalterBild, 'rezept', 28, 3, negroniZutaten, negroniMenge);
     List<Zutat> martiniZutaten = [gin, wermut];
-    Cocktail martini = Cocktail('Martini', platzhalterBild, 'rezept', 15, 2, martiniZutaten);
+    List <String> martiniMenge = ['5 cl', '1 cl'];
+    Cocktail martini = Cocktail('Martini', platzhalterBild, 'rezept', 15, 2, martiniZutaten, martiniMenge);
     List<Zutat> bloodyMaryZutaten = [wodka, tomatensaft, zitronensaft, worcester, tabasco];
-    Cocktail bloodyMary = Cocktail('Bloody Mary', platzhalterBild, 'rezept', 11, 1, bloodyMaryZutaten);
+    List <String> bloodyMaryMenge = ['4 cl', '10 cl', '2 cl', '4 Spritzer', '2 Spritzer'];
+    Cocktail bloodyMary = Cocktail('Bloody Mary', platzhalterBild, 'rezept', 11, 1, bloodyMaryZutaten, bloodyMaryMenge);
 
   }
 }
