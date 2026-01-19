@@ -175,6 +175,7 @@ class _StartState extends State<Start> {
             /// Expanded: nimmt den restlichen Platz ein -> NUR dieser Bereich scrollt
             Expanded(
               child: ListView(
+                cacheExtent:double.infinity,
                 controller: _scrollController,
                 children: [
                   for ( int i = 0; i<kategorien.length;i++)
@@ -268,7 +269,7 @@ Widget kategorie(BuildContext context,int catId, String query) {
         list[i].name,
         list[i].id,
         Image.network(
-            "https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg/small",
+            list[i].bild,
             width: screenWidth*0.2225,
             height: screenWidth*0.2225,
             cacheWidth: (screenWidth*0.2225).toInt(),
