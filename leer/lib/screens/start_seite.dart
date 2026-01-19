@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import '../screens/cocktails.dart';
@@ -9,7 +10,7 @@ class Start extends StatefulWidget {
   @override
   State<Start> createState() => _StartState();
 }
- final List<Zutat> drinks = [];
+final List<Zutat> drinks = [];
 /// Der "State" ist der Teil, der Daten hält, die sich ändern können (z.B. query)
 class _StartState extends State<Start> {
   /// Scrollen/Automatisch
@@ -128,7 +129,7 @@ class _StartState extends State<Start> {
             SizedBox(
               height: screenHeight*0.05,
               child:
-            /// Kategoiren-Leiste
+              /// Kategoiren-Leiste
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -158,7 +159,7 @@ class _StartState extends State<Start> {
                           style: TextStyle(
                             fontSize: screenWidth*0.04,
                             color: Colors.white,
-  
+
                           ),),
                       ),
                       SizedBox(width: screenWidth*0.02),
@@ -175,7 +176,6 @@ class _StartState extends State<Start> {
             Expanded(
               child: ListView(
                 controller: _scrollController,
-                cacheExtent: double.infinity,
                 children: [
                   for ( int i = 0; i<kategorien.length;i++)
                     kategorieMitUeberschrift(screenHeight,screenWidth,i)
