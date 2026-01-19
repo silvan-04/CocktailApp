@@ -175,6 +175,7 @@ class _StartState extends State<Start> {
             Expanded(
               child: ListView(
                 controller: _scrollController,
+                cacheExtent: double.infinity,
                 children: [
                   for ( int i = 0; i<kategorien.length;i++)
                     kategorieMitUeberschrift(screenHeight,screenWidth,i)
