@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 void main(){
@@ -119,7 +118,7 @@ class Cocktail{
     Cocktail martini = Cocktail('Martini', platzhalterBild, 'rezept', 15, 2, martiniZutaten, martiniMenge);
     List<Zutat> bloodyMaryZutaten = [wodka, tomatensaft, zitronensaft, worcester, tabasco];
     List <String> bloodyMaryMenge = ['4 cl', '10 cl', '2 cl', '4 Spritzer', '2 Spritzer'];
-    Cocktail bloodyMary = Cocktail('Bloody Mary', platzhalterBild, 'rezept', 11, 1, bloodyMaryZutaten, bloodyMaryMenge);
+    Cocktail bloodyMary = Cocktail('Bloody Mary', platzhalterBild, 'Dieser Cocktail wird geschüttelt und nicht gerührt. Für einen Bloody Mary einfach alle Zutaten im Shaker mit einigen Eiswürfeln kräftig mixen. In ein Longdrinkglas gießen (die zum Mixen verwendeten Eiswürfel bleiben im Shaker).', 11, 1, bloodyMaryZutaten, bloodyMaryMenge);
 
   }
 }
