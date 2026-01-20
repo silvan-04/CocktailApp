@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'cocktail.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 
 class rezept_seite extends StatefulWidget {
@@ -15,10 +16,12 @@ class rezept_seite extends StatefulWidget {
 class _rezept_seiteState extends State<rezept_seite> {
   late YoutubePlayerController _controller;
   bool isFullScreen = false;
+  String rezept = 'Text nicht geladen!';
 
   @override
   void initState() {
     super.initState();
+    ladeBeschreibung();
     _controller = YoutubePlayerController(
       initialVideoId: 'dQw4w9WgXcQ',
       flags: const YoutubePlayerFlags(
@@ -41,12 +44,31 @@ class _rezept_seiteState extends State<rezept_seite> {
     super.dispose();
   }
 
+  Future<void> ladeBeschreibung() async {
+    // Hier die Datei laden
+    String textAusDatei = await rootBundle.loadString(widget.cocktail.rezept);
+
+    // 3. Dem Framework sagen: "Hey, der Text ist da, zeichne die Seite neu!"
+    setState(() {
+      rezept = textAusDatei;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: isFullScreen
         ? null
-      : AppBar(title: Text(widget.cocktail.name, style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+      : AppBar(leading:
+        IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.blue),
+          iconSize: screenHeight *0.05,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+          title: Text(widget.cocktail.name, style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
       body: isFullScreen
           ? MediaQuery.removePadding(
         context: context,
@@ -105,7 +127,7 @@ class _rezept_seiteState extends State<rezept_seite> {
                     alignment: Alignment.topLeft,
                     child: SingleChildScrollView(
                       child: Text(
-                        widget.cocktail.rezept,
+                        rezept,
                         style: const TextStyle(fontSize: 20),
                       ),
                     ),
