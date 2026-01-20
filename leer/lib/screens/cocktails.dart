@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'cocktail.dart';
 import 'start_seite.dart';
-import 'rezept_seite.dart';
 
 class Cocktails extends StatefulWidget {
   final List<Cocktail> cocktails;
@@ -116,69 +115,67 @@ class _CocktailButtonState extends State<CocktailButton> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Container (
-      margin: EdgeInsets.symmetric(vertical: 10,horizontal: 20),
-      height: 200,
-      constraints: const BoxConstraints(maxWidth: 400),
+      margin: EdgeInsets.symmetric(vertical: screenHeight*0.015,horizontal: screenWidth*0.05),
+      height: screenHeight*0.225,
+      constraints: BoxConstraints(maxWidth: screenWidth*0.8),
       child:
       InkWell(
-        onTap: () {
-          // hier link zu Rezeptseite
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => rezept_seite(widget.cocktail),
-              ),
-          );
-        },
-        borderRadius: BorderRadius.circular(widget.ecken),
+        // onTap: () => Navigator.push(
+        //     context,
+        //     MaterialPageRoute(builder: (_) =>  // hier neue Rezeptseite,
+        //   ),)
+        // ,
+        borderRadius: BorderRadius.circular(screenHeight*0.02),
         child:
         Container(
           decoration: BoxDecoration(
             color: Colors.white70,
-            borderRadius: BorderRadius.circular(widget.ecken),
+            borderRadius: BorderRadius.circular(screenHeight*0.02),
             boxShadow: [
               BoxShadow(
                 color: Colors.black26,
-                blurRadius: 8,
-                offset: Offset(0,4),
+                blurRadius: screenHeight*0.01,
+                offset: Offset(0,screenHeight*0.005),
               )
             ],
             border: Border.all(
               color: Colors.transparent,
-              width: 4,
+              width: ((screenHeight+screenWidth)/2) * 0.005,
             ),
           ),
-          padding: EdgeInsets.all(widget.ecken),
+          padding: EdgeInsets.symmetric(vertical: screenHeight*0.032,horizontal: screenWidth*0.05),
           child:
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget> [
-              Column( children: [ClipRRect( borderRadius: BorderRadius.circular(widget.ecken),child: Image.network(widget.cocktail.bild,width: 150,height: 150, cacheWidth: 200,fit: BoxFit.contain)),
+              Column( children: [ClipRRect( borderRadius: BorderRadius.circular(screenHeight*0.02),child: Image.network(widget.cocktail.bild,width: screenWidth *0.35> screenHeight*0.15 ? screenHeight*0.15 :screenWidth *0.35,height:screenWidth *0.35> screenHeight*0.15 ? screenHeight*0.15 :screenWidth *0.35, cacheWidth: (screenWidth *0.35>screenHeight*0.15? screenHeight*0.15 :screenWidth *0.35).toInt(),fit: BoxFit.contain)),
               ]),
-              SizedBox(width:30),
+              SizedBox(width:screenWidth*0.07225),
               Column(
                 children: [
-                  SizedBox(height: 50, width: 140,child: AutoSizeText(widget.cocktail.name,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),maxLines: 1,textAlign: TextAlign.center,softWrap: true,),
+                  SizedBox(height: screenHeight*0.05, width: screenWidth*0.3,child: AutoSizeText(widget.cocktail.name,style: TextStyle(fontSize: screenHeight*0.03,fontWeight: FontWeight.bold),maxLines: 2,textAlign: TextAlign.center,softWrap: true,),
                   ),
-                  SizedBox(width: 140, child: Text("Schwierigkeit:",textAlign: TextAlign.start,),)
+                  SizedBox(width: screenWidth*0.3,height: screenHeight*0.025 ,child: AutoSizeText("Schwierigkeit:" ,textAlign: TextAlign.start,maxLines: 1),)
                   ,
                   SizedBox(
-                      width: 140,
+                      width: screenWidth*0.3,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           for(int i=0; i < widget.cocktail.schwierigkeit;i++)
                             if(i<5)
-                              const Icon(Icons.star, color: Colors.amber),
+                              Icon(Icons.star, color: Colors.amber, size: screenWidth * 0.05,),
                           for(int i=5; i>widget.cocktail.schwierigkeit;i--)
-                            const Icon(Icons.star,color: Colors.black,)
+                            Icon(Icons.star,color: Colors.black,size: screenWidth * 0.05,)
                         ],
                       )
                   ),
-                  SizedBox(width: 140, child: Text("Stärke: ${widget.cocktail.alkoholgehalt} %",textAlign: TextAlign.start,),),
+                  SizedBox(width: screenWidth*0.3, height: screenHeight*0.025,child: AutoSizeText("Stärke: ${widget.cocktail.alkoholgehalt} %",textAlign: TextAlign.start,maxLines:1),),
                   if(widget.cocktail.fehlendeZutaten!=0)
-                    SizedBox(width: 140, child: Text("Fehlend: ${widget.cocktail.fehlendeZutaten} ",textAlign: TextAlign.start,),)
+                    SizedBox(width: screenWidth*0.3,height: screenHeight*0.025, child: AutoSizeText("Fehlend: ${widget.cocktail.fehlendeZutaten} ",textAlign: TextAlign.start,maxLines:1,),)
 
                 ],)
               // Text(,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold), maxLines: 1,overflow: TextOverflow.ellipsis,),
