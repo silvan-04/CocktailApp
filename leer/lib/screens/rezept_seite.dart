@@ -17,15 +17,18 @@ class _rezept_seiteState extends State<rezept_seite> {
   late YoutubePlayerController _controller;
   bool isFullScreen = false;
   String rezept = 'Text nicht geladen!';
+  bool isMuted = false;
 
   @override
   void initState() {
     super.initState();
     ladeBeschreibung();
+    final videoID = YoutubePlayer.convertUrlToId(widget.cocktail.video);
     _controller = YoutubePlayerController(
-      initialVideoId: 'dQw4w9WgXcQ',
+      initialVideoId: videoID ?? '',
       flags: const YoutubePlayerFlags(
         autoPlay: false,
+        mute: false,
       ),
     )..addListener(_listener);
   }
@@ -54,6 +57,35 @@ class _rezept_seiteState extends State<rezept_seite> {
     });
   }
 
+  Widget buildYoutubePlayer() {
+    return Stack(
+      children: [
+        YoutubePlayer(
+          controller: _controller,
+          showVideoProgressIndicator: true,
+        ),
+        Positioned(
+          top: 8,
+          right: 8,
+          child: IconButton(
+            icon: Icon(
+              isMuted ? Icons.volume_off : Icons.volume_up,
+              color: Colors.white,
+              size: 28,
+            ),
+            onPressed: () {
+              setState(() {
+                isMuted = !isMuted;
+                isMuted ? _controller.mute() : _controller.unMute();
+              });
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -74,17 +106,11 @@ class _rezept_seiteState extends State<rezept_seite> {
         context: context,
         removeTop: true,
         removeBottom: true,
-        child: YoutubePlayer(
-          controller: _controller,
-          showVideoProgressIndicator: true,
-        ),
+        child: buildYoutubePlayer(),
       )
           : Column(
         children: [
-          YoutubePlayer(
-            controller: _controller,
-            showVideoProgressIndicator: true,
-          ),
+          buildYoutubePlayer(),
           if (!isFullScreen)
           Expanded(
             child: Row(
@@ -128,7 +154,7 @@ class _rezept_seiteState extends State<rezept_seite> {
                     child: SingleChildScrollView(
                       child: Text(
                         rezept,
-                        style: const TextStyle(fontSize: 20),
+                        style: const TextStyle(fontFamily: 'Merriweather', fontSize: 20),
                       ),
                     ),
                   ),
