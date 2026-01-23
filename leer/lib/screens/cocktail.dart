@@ -107,19 +107,19 @@ class Cocktail{
     List <String> pinaColadaMenge = ['6 cl', '10 cl', '2 cl', '4 cl'];
     Cocktail pinaColada = Cocktail('Pina Colada', 'assets/bild/Pina_Colada.png', 'assets/rezept/pinaColada.txt', 10, 2, pinaColadaZutaten, pinaColadaMenge, 'https://www.youtube.com/watch?v=oWtKsI3eMGU');
     List<Zutat> sexOnTheBeachZutaten = [wodka, pfirsichlikoer, cranberrysaft, orangensaft, zitronensaft];
-    List <String> sexOnTheBeachMenge = ['3 cl', '3 cl', '6 cl', '6 cl'];
-    Cocktail sexOnTheBeach = Cocktail('Sex On The Beach', 'assets/bild/Sex_on_the_Beach.png', 'rezept', 13, 1, sexOnTheBeachZutaten, sexOnTheBeachMenge, 'https://www.youtube.com/watch?v=JoL4n1gDHss');
+    List <String> sexOnTheBeachMenge = ['4 cl', '2 cl','2 cl', '4 cl', '2 cl'];
+    Cocktail sexOnTheBeach = Cocktail('Sex On The Beach', 'assets/bild/Sex_on_the_Beach.png', 'assets/rezept/sexOnTheBeach.txt', 13, 1, sexOnTheBeachZutaten, sexOnTheBeachMenge, 'https://www.youtube.com/watch?v=JoL4n1gDHss');
     List<Zutat> ginTonicZutaten = [gin, tonic];
-    List <String> ginTonicMenge = ['4 cl', '20 cl'];
-    Cocktail ginTonic = Cocktail('Gin Tonic', 'assets/bild/Gin_Tonic.png', 'rezept', 13, 1, ginTonicZutaten, ginTonicMenge, 'https://www.youtube.com/watch?v=joPbaVplsxI');
+    List <String> ginTonicMenge = ['4 cl', 'n. B.'];
+    Cocktail ginTonic = Cocktail('Gin Tonic', 'assets/bild/Gin_Tonic.png', 'assets/rezept/ginTonic.txt', 13, 1, ginTonicZutaten, ginTonicMenge, 'https://www.youtube.com/watch?v=joPbaVplsxI');
     List<Zutat> negroniZutaten = [gin, wermut, campari];
-    List <String> negroniMenge = ['2 cl', '2 cl', '2 cl'];
-    Cocktail negroni = Cocktail('Negroni', 'assets/bild/Negroni.png', 'rezept', 28, 3, negroniZutaten, negroniMenge, 'https://www.youtube.com/watch?v=8XqRkA0FRq4');
+    List <String> negroniMenge = ['3 cl', '3 cl', '3 cl'];
+    Cocktail negroni = Cocktail('Negroni', 'assets/bild/Negroni.png', 'assets/rezept/negroni.txt', 28, 3, negroniZutaten, negroniMenge, 'https://www.youtube.com/watch?v=8XqRkA0FRq4');
     List<Zutat> martiniZutaten = [gin, wermut];
-    List <String> martiniMenge = ['5 cl', '1 cl'];
-    Cocktail martini = Cocktail('Martini', 'assets/bild/Martini.png', 'rezept', 15, 2, martiniZutaten, martiniMenge, 'https://www.youtube.com/watch?v=C09Y4kTfXxs');
+    List <String> martiniMenge = ['5 cl', '2 cl'];
+    Cocktail martini = Cocktail('Martini', 'assets/bild/Martini.png', 'assets/rezept/martini.txt', 15, 2, martiniZutaten, martiniMenge, 'https://www.youtube.com/watch?v=C09Y4kTfXxs');
     List<Zutat> bloodyMaryZutaten = [wodka, tomatensaft, zitronensaft, worcester, tabasco];
-    List <String> bloodyMaryMenge = ['4 cl', '10 cl', '2 cl', '4 Spritzer', '2 Spritzer'];
+    List <String> bloodyMaryMenge = ['5 cl', '20 cl', '2 cl', '2 Spritzer', '2 Spritzer'];
     Cocktail bloodyMary = Cocktail('Bloody Mary', 'assets/bild/Bloody_Mary.png', 'assets/rezept/bloodyMary.txt', 11, 1, bloodyMaryZutaten, bloodyMaryMenge, 'https://www.youtube.com/watch?v=TNE41-RPA0U');
 
   }

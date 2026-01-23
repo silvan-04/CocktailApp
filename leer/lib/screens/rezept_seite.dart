@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'cocktail.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:auto_size_text/auto_size_text.dart';
+
 
 
 class rezept_seite extends StatefulWidget {
@@ -136,7 +138,15 @@ class _rezept_seiteState extends State<rezept_seite> {
                           child: ListView.builder(
                             itemCount: widget.cocktail.zutaten.length,
                             itemBuilder: (context, index) {
-                              return Text('• ${widget.cocktail.zutatenMenge[index]} ${widget.cocktail.zutaten[index].name}');
+                              return AutoSizeText('• ${widget.cocktail.zutatenMenge[index]} ${widget.cocktail.zutaten[index].name}',
+                                  maxLines: 2,
+                                  minFontSize: 12,
+                                  maxFontSize: 16,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  )
+                              );
                             },
                           ),
                         ),
