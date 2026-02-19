@@ -2,6 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'cocktail.dart';
 import 'start_seite.dart';
+import 'rezept_seite.dart';
+import 'dart:math';
 
 class Cocktails extends StatefulWidget {
   final List<Cocktail> cocktails;
@@ -117,17 +119,20 @@ class _CocktailButtonState extends State<CocktailButton> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    double imgSize = min(screenWidth*0.35, screenHeight*0.15);
     return Container (
       margin: EdgeInsets.symmetric(vertical: screenHeight*0.015,horizontal: screenWidth*0.05),
       height: screenHeight*0.225,
       constraints: BoxConstraints(maxWidth: screenWidth*0.8),
       child:
       InkWell(
-        // onTap: () => Navigator.push(
-        //     context,
-        //     MaterialPageRoute(builder: (_) =>  // hier neue Rezeptseite,
-        //   ),)
-        // ,
+        onTap: ()=>
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => rezept_seite(widget.cocktail),
+            ),
+          ),
         borderRadius: BorderRadius.circular(screenHeight*0.02),
         child:
         Container(
@@ -151,7 +156,15 @@ class _CocktailButtonState extends State<CocktailButton> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget> [
-              Column( children: [ClipRRect( borderRadius: BorderRadius.circular(screenHeight*0.02),child: Image.network(widget.cocktail.bild,width: screenWidth *0.35> screenHeight*0.15 ? screenHeight*0.15 :screenWidth *0.35,height:screenWidth *0.35> screenHeight*0.15 ? screenHeight*0.15 :screenWidth *0.35, cacheWidth: (screenWidth *0.35>screenHeight*0.15? screenHeight*0.15 :screenWidth *0.35).toInt(),fit: BoxFit.contain)),
+              Column( children: [ClipRRect( borderRadius: BorderRadius.circular(screenHeight*0.02),child:
+                Image.asset(
+                  widget.cocktail.bild,
+                  width: imgSize,
+                  height: imgSize,
+                  cacheWidth: imgSize.toInt(), // Optimiert den Speicherverbrauch
+                  fit: BoxFit.contain,
+                ),
+              ),
               ]),
               SizedBox(width:screenWidth*0.07225),
               Column(

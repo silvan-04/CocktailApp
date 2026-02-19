@@ -268,7 +268,7 @@ Widget kategorie(BuildContext context,int catId, String query) {
     itemBuilder: (_, i) => PanelButton(
         list[i].name,
         list[i].id,
-        Image.network(
+        Image.asset(
             list[i].bild,
             width: screenWidth*0.2225,
             height: screenWidth*0.2225,

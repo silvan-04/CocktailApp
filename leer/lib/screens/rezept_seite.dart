@@ -1,0 +1,179 @@
+import 'package:flutter/material.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'cocktail.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:auto_size_text/auto_size_text.dart';
+
+
+
+class rezept_seite extends StatefulWidget {
+  final Cocktail cocktail;
+
+  const rezept_seite(this.cocktail, {super.key});
+
+  @override
+  State<rezept_seite> createState() => _rezept_seiteState();
+}
+
+class _rezept_seiteState extends State<rezept_seite> {
+  late YoutubePlayerController _controller;
+  bool isFullScreen = false;
+  String rezept = 'Text nicht geladen!';
+  bool isMuted = false;
+
+  @override
+  void initState() {
+    super.initState();
+    ladeBeschreibung();
+    final videoID = YoutubePlayer.convertUrlToId(widget.cocktail.video);
+    _controller = YoutubePlayerController(
+      initialVideoId: videoID ?? '',
+      flags: const YoutubePlayerFlags(
+        autoPlay: false,
+        mute: false,
+      ),
+    )..addListener(_listener);
+  }
+
+  void _listener(){
+    if (_controller.value.isFullScreen != isFullScreen){
+      setState((){
+        isFullScreen = _controller.value.isFullScreen;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> ladeBeschreibung() async {
+    // Hier die Datei laden
+    String textAusDatei = await rootBundle.loadString(widget.cocktail.rezept);
+
+    // 3. Dem Framework sagen: "Hey, der Text ist da, zeichne die Seite neu!"
+    setState(() {
+      rezept = textAusDatei;
+    });
+  }
+
+  Widget buildYoutubePlayer() {
+    return Stack(
+      children: [
+        YoutubePlayer(
+          controller: _controller,
+          showVideoProgressIndicator: true,
+        ),
+        Positioned(
+          top: 8,
+          right: 8,
+          child: IconButton(
+            icon: Icon(
+              isMuted ? Icons.volume_off : Icons.volume_up,
+              color: Colors.white,
+              size: 28,
+            ),
+            onPressed: () {
+              setState(() {
+                isMuted = !isMuted;
+                isMuted ? _controller.mute() : _controller.unMute();
+              });
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    return Scaffold(
+      appBar: isFullScreen
+        ? null
+      : AppBar(leading:
+        IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.blue),
+          iconSize: screenHeight *0.05,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+          title: Text(widget.cocktail.name, style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+      body: isFullScreen
+          ? MediaQuery.removePadding(
+        context: context,
+        removeTop: true,
+        removeBottom: true,
+        child: buildYoutubePlayer(),
+      )
+          : Column(
+        children: [
+          buildYoutubePlayer(),
+          if (!isFullScreen)
+          Expanded(
+            child: Row(
+              children: [
+                /// Zutaten
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    color: Colors.grey.shade200,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Zutaten',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: widget.cocktail.zutaten.length,
+                            itemBuilder: (context, index) {
+                              return AutoSizeText('• ${widget.cocktail.zutatenMenge[index]} ${widget.cocktail.zutaten[index].name}',
+                                  maxLines: 2,
+                                  minFontSize: 12,
+                                  maxFontSize: 16,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  )
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                /// Rezept Beschreibung
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    alignment: Alignment.topLeft,
+                    child: SingleChildScrollView(
+                      child: Text(
+                        rezept,
+                        style: const TextStyle(fontFamily: 'Merriweather', fontSize: 20),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+        ),
+    );
+  }
+}
